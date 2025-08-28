@@ -80,8 +80,4 @@ def zoo_management
   end
 end
 
-# mammal = Mammal.new("Peter", "Gorilla", "Black")
-# p mammal.intro
-# p mammal.feed
-# p mammal.sound
 zoo_management

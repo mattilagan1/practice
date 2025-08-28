@@ -50,39 +50,5 @@
 # teacher = Teacher.new("Leon", 26, "Coding", 5)
 # p teacher.intro
 
-# class Zoo_Management
-#   def initialize(animal, type)
-#     @animal = animal
-#     @type =  type
-#   end
-
-#   def intro
-#     return "This animal is a #{@animal}, they are a #{@type}."
-#   end
-# end
-
-# class Gorilla < Zoo_Management
-#   def initialize(animal, type, food, hierarchy)
-#     super(animal, type, food)
-#     @hierarchy = hierarchy
-#   end
-
-#   def intro
-#     super + " And they mainly stick to eating #{@food}. They are led by the #{@hierarchy} #{@animal} in the group."
-#   end
-# end
-
-# class Bear < Zoo_Management
-#   def initialize(animal, type, food, sleep_pattern)
-#     super(animal, type, food)
-#     @sleep_pattern = sleep_pattern
-#   end
-
-#   def intro
-#     super + " And they mostly eat #{@food}. They #{@sleep_pattern} depending on what type of season it is. "
-#   end
-# end
 
 
-# animal1 = Gorilla.new("Gorilla", "Mammal", "Bamboo", "Oldest")
-# p animal1.intro
