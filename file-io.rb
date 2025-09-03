@@ -27,18 +27,41 @@
 # end
 
 
+# begin
+#   file = File.open("oopHW.rb", "r")
+#   count = 0
+#   file.each_line do |line|
+#     if line.include?("puts")
+#     count += 1
+#     puts "Read line: #{line}"
+#   end
+# end
+#   puts  "Total lines [Puts]: #{count}"
+# rescue Errno::ENOENT => e
+#   puts "file does not exist. #{e}"
+# ensure
+#   file.close if file
+# end
+
+
+
+
+require 'json'
+
+contacts = [
+  {number: "1", name: "Matt"},
+  {number: "2", name: "Leon"},
+  {number: "3", name: "Junior"},
+  {number: "4", name: "Ron"},
+  {number: "5", name: "Adrian"}
+]
+
 begin
-  file = File.open("oopHW.rb", "r")
-  count = 0
-  file.each_line do |line|
-    if line.include?("puts")
-    count += 1
-    puts "Read line: #{line}"
-  end
-end
-  puts  "Total lines [Puts]: #{count}"
-rescue Errno::ENOENT => e
-  puts "file does not exist. #{e}"
+  file = File.open("contacts.json", "w")
+  file.write(JSON.pretty_generate(contacts))
+  puts "Contacts saved in contacts.json"
+rescue
+  puts "Error occured"
 ensure
   file.close if file
 end
