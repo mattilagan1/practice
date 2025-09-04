@@ -75,7 +75,7 @@ class MovieWatchlist
     # - Append it to @movies
     @movies << movie
     # - Print a confirmation message
-    print "Added movie: #{title}"
+    print "Added movie: #{title} (ID: #{movie[:id]})"
     # - Save to disk by calling a private save_database
     save_database
   end
@@ -83,60 +83,84 @@ class MovieWatchlist
   def remove_movie_by_id(id)
     # TODO:
     # - Find the movie with matching :id
+    movie = @movies.find{|m| m[:id] == id}
     # - Remove it from @movies (if found) and print a message
-    # - If not found, print "Movie not found."
+    if movie
+      @movies.delete(movie)
+      print "Removed movie: #{movie[:title]}"
+    else
+      puts "Movie not found"
+    end
     # - Save changes to disk
+    save_database
   end
 
   # Mark a movie as watched by its ID.
   def mark_watched(id)
     # TODO:
     # - Find the movie
+    movie = @movies.find{|m| m[:id] == id}
     # - Set its :watched to true (or toggle if you want)
+    movie[:watched] = true
     # - Print a message
+    print "Marked as watched #{movie[:title]}"
     # - Save changes to disk
+    save_database
   end
 
   # List all movies with their status.
   def list_movies
     # TODO:
     # - If empty, print "No movies yet."
-    # - Otherwise print lines like: "1. #3 - Inception [watched: false]"
+    if @movies.empty?
+      puts "No movies added"
+    else
+      @movies.each_with_index do |movie, i|
+        puts "#{i + 1}. #{movie[:id]} - #{movie[:title]} [watched: #{movie[:watched]}]"
+      end
+    end
   end
 
   # ---------------- Private helpers (encapsulation) ----------------
-  # private
+  private
 
   # Load existing movies from JSON if it exists.
   def load_database
     # TODO:
      if File.exist?(@file_name)
-     end
-    #     - Read the file and JSON.parse with symbolize_names: true
-    #     - Assign to @movies
-    #     - Print "Movies loaded."
-    #   Else:
-    #     - Leave @movies as []
-    #     - Print "No database found. Starting fresh."
-    # - Add basic error handling with begin/rescue to avoid crashing on bad JSON
+      begin
+        file = File.open(@file_name, "r")
+        @movies = JSON.parse(file.read, symbolize_names: true)
+        puts "Movies loaded..."
+      rescue
+        puts "Error no file"
+      ensure
+        file.close if file
+      end
+    else
+      puts "No file exists, but we are going to continue."
+      @movies = []
+    end
   end
 
   # Save current @movies to the JSON file (pretty-printed).
   def save_database
     # TODO:
     # - Open @file_name in write mode
-    # - Write JSON.pretty_generate(@movies)
-    # - Print "Saved."
-    # - Add basic error handling with begin/rescue
+    begin
+      file = File.open(@file_name, "w")
+      file.write(JSON.pretty_generate(@movies))
+      puts "Data saved into @movies"
+    rescue => e
+      puts "Error occured: #{e}"
+    ensure
+      file.close if file
+    end
   end
 
   # Return the next integer ID (1 if no movies yet).
   def next_id
     something = @movies.length + 1
-    # TODO:
-    # - If @movies is empty, return 1
-    # - Else return max existing :id + 1
-    #   (hint: @movies.map { |m| m[:id] }.max)
   end
 end
 
